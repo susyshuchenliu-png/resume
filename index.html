@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>my-resume</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘书晨 | 网页简历</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2D3436;
+            --accent-color: #00CEC9; 
+            --card-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            color: var(--primary-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-color: #00253D; /* 底部兜底色 */
+            overflow-x: hidden;
+        }
+
+        /* --- 1. 鼠标交互：微光水纹层 --- */
+        #water-ripple {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* 基础海水渐变 + 鼠标跟随的径向渐变 */
+            background: 
+                radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 206, 201, 0.15), transparent 40%),
+                linear-gradient(180deg, #E0FBFC 0%, #81D4FA 20%, #0288D1 50%, #01579B 80%, #00253D 100%);
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        header {
+            height: 45vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #003049;
+            text-align: center;
+            padding: 20px;
+            position: relative; /* 为海浪定位 */
+        }
+
+        /* --- 2. SVG 海浪滚动动画 --- */
+        .wave-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: calc(153% + 1.3px);
+            height: 60px;
+            animation: wave-animation 10s linear infinite;
+        }
+
+        @keyframes wave-animation {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-25%); }
+        }
+
+        .header-content h1 { 
+            font-size: 2.8rem; 
+            letter-spacing: 8px; 
+            margin-bottom: 15px; 
+            text-shadow: 0 2px 10px rgba(255,255,255,0.5);
+        }
+        .header-content p { font-weight: 400; color: #005082; }
+
+        .container { max-width: 1000px; margin: -60px auto 50px; padding: 0 20px; position: relative; z-index: 10; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: transform 0.3s ease;
+        }
+        .card:hover { transform: translateY(-3px); }
+
+        h2 { 
+            border-left: 6px solid var(--accent-color); 
+            padding-left: 15px; 
+            margin-bottom: 30px; 
+            font-size: 1.5rem; 
+            color: #003049; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .portfolio-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 25px; 
+        }
+
+        .work-box {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 340px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .work-box:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
+        }
+        
+        .work-img-container {
+            height: 190px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #f0f4f8;
+        }
+
+        .work-img-blur {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(15px) brightness(0.9);
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .work-img-main {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 2;
+        }
+        
+        .work-info { padding: 18px; font-size: 0.85rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; }
+        .work-info strong { display: block; margin-bottom: 8px; color: #0077B6; font-size: 1rem; }
+        .work-info p { color: #555; line-height: 1.5; font-weight: 300; }
+
+        .skill-badges { display: flex; flex-wrap: wrap; gap: 12px; }
+        .badge { 
+            background: rgba(0, 206, 203, 0.1);
+            border: 1px solid var(--accent-color); 
+            color: #0077B6; 
+            padding: 6px 18px; 
+            border-radius: 50px; 
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .badge:hover { background: var(--accent-color); color: white; }
+
+        footer { text-align: center; color: white; padding-bottom: 50px; font-size: 0.9rem; opacity: 0.8; }
+
+        @media (max-width: 900px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) {
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .header-content h1 { font-size: 2rem; letter-spacing: 4px; }
+            .work-box { height: auto; min-height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="water-ripple"></div>
+
+<header>
+    <div class="header-content">
+        <h1>刘书晨 | Susy Liu</h1>
+        <p>KCL硕士 | 媒体人 | AIGC | 跨平台内容创意</p>
+        <div style="margin-top:20px; font-size: 0.9rem; color: #0077B6;">
+            <span><i class="fas fa-envelope"></i> liushuchensusy@163.com</span>
+            <span style="margin-left:15px;"><i class="fas fa-phone"></i> 15168427516</span>
+        </div>
+    </div>
+
+    <div class="wave-divider">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0Zm0,0" fill="rgba(255,255,255,0.4)"></path>
+        </svg>
+    </div>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2><i class="fas fa-compass"></i> 核心优势</h2>
+        <p>深耕媒体、探索AI，采编播评、策拍导剪、多项亿级流量新闻专题、跨国跨平台矩阵运营、数据新闻背景与国际化视野。</p>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-layer-group"></i> 部分作品</h2>
+        <div class="portfolio-grid">
+            
+            <a href="https://www.dotdotnews.com" target="_blank" class="work-box">
+                <div class="work-img-container">
+                    <div class="work-img-blur" style="background-image: url('http://dw-media.dotdotnews.com/dams/product/image/202602/03/6981bf3ae4b08c07fccc9fa1.jpeg')"></div>
+                    <div class="work-img-main" style="background-image: url('http://dw-media.dotdotnews.com/dams/product/image/202602/03/6981bf3ae4b08c07fccc9fa1.jpeg')"></div>
+                </div>
+                <div class="work-info">
+                    <strong>點新聞-国际社评及专题报道</strong>
+                    <p>搜索“舒城”查看更多原创深度内容。</p>
+                </div>
+            </a>
+
+            <a href="https://www.tkww.hk/" target="_blank" class="work-box">
+                <div class="work-img-container">
+                    <div class="work-img-blur" style="background-image: url('https://dw-media.tkww.hk/dams/dwproduct/image/202603/01/69a31b4fe4b08c07fcd4c676.jpeg?x-oss-process=image/quality,Q_95/resize,w_1000')"></div>
+                    <div class="work-img-main" style="background-image: url('https://dw-media.tkww.hk/dams/dwproduct/image/202603/01/69a31b4fe4b08c07fcd4c676.jpeg?x-oss-process=image/quality,Q_95/resize,w_1000')"></div>
+                </div>
+                <div class="work-info">
+                    <strong>大公文匯-2025全国两会专题</strong>
+                    <p>团队作品全网流量超4亿。</p>
+                </div>
+          
+            <a href="https://www.bilibili.com/video/BV1GFPWzLELj/" target="_blank" class="work-box">
+                <div class="work-img-container">
+                    <div class="work-img-blur" style="background-image: url('images/jiangzhuhuan.JPG')"></div>
+                    <div class="work-img-main" style="background-image: url('images/jiangzhuhuan.JPG')"></div>
+                </div>
+                <div class="work-info">
+                    <strong>AI生态研究-视频创意</strong>
+                    <p>文案、音乐、视觉全链路 AIGC 运用。</p>
+                </div>
+            </a>
+
+          
+            </a>
+
+            <a href="https://www.dotdotnews.com/ArtsLifestyle/CHINESESTORIES" target="_blank" class="work-box">
+                <div class="work-img-container">
+                    <div class="work-img-blur" style="background-image: url('https://dw-media.dotdotnews.com/dams/product/image/202511/12/69143a03e4b08c07fcae6245.png')"></div>
+                    <div class="work-img-main" style="background-image: url('https://dw-media.dotdotnews.com/dams/product/image/202511/12/69143a03e4b08c07fcae6245.png')"></div>
+                </div>
+                <div class="work-info">
+                    <strong>CHINESE STORY系列</strong>
+                    <p>利用 AI 赋能的国际文化输出实践。</p>
+                </div>
+                <a href="https://fanqienovel.com/author-page/1813563134445248" target="_blank" class="work-box">
+                <div class="work-img-container">
+                    <div class="work-img-blur" style="background-image: url('https://p6-novel-sign.byteimg.com/novel-pic/p2obf03d9de998ee969e1a4dd223e66c21f~tplv-resize:225:300.image?lk3s=191c1ecc&x-expires=1775042398&x-signature=ZTseDfoHkXoqIRnA8zPBXBwanEs%3D')"></div>
+                    <div class="work-img-main" style="background-image: url('https://p6-novel-sign.byteimg.com/novel-pic/p2obf03d9de998ee969e1a4dd223e66c21f~tplv-resize:225:300.image?lk3s=191c1ecc&x-expires=1775042398&x-signature=ZTseDfoHkXoqIRnA8zPBXBwanEs%3D')"></div>
+                </div>
+                <div class="work-info">
+                    <strong>AI生态研究-网文小说</strong>
+                    <p>利用 AI 工具进行长文本叙事创作。</p>
+                </div>
+                </a>
+
+            <a href="#" class="work-box">
+                <div class="work-img-container">
+                    <div class="work-img-blur" style="background-image: url('images/freediving.JPG')"></div>
+                    <div class="work-img-main" style="background-image: url('images/freediving.JPG')"></div>
+                </div>
+                <div class="work-info">
+                    <strong>斜杠生活</strong>
+                    <p>自由潜水员、认证美人鱼、水下摄影。</p>
+                </div>
+            </a>
+
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-bolt"></i> 技能矩阵</h2>
+        <div class="skill-badges">
+            <span class="badge">Pr / Final Cut / Au </span>
+            <span class="badge">Ps / Gephi / MySQL </span>
+            <span class="badge">雅思 7 </span>
+          <span class="badge">普通话一级乙等 </span>
+            <span class="badge">数据新闻 </span>
+            <span class="badge">AIGC </span>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2026 刘书晨 | Keep Exploring, Keep Recording
+</footer>
+
+<script>
+    // 监听鼠标/手指移动，更新背景微光位置
+    const ripple = document.getElementById('water-ripple');
+    
+    function moveRipple(e) {
+        // 兼容触摸屏
+        const x = e.clientX || (e.touches && e.touches[0].clientX);
+        const y = e.clientY || (e.touches && e.touches[0].clientY);
+        
+        ripple.style.setProperty('--mouse-x', x + 'px');
+        ripple.style.setProperty('--mouse-y', y + 'px');
+    }
+
+    document.addEventListener('mousemove', moveRipple);
+    document.addEventListener('touchmove', moveRipple);
+</script>
+
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
